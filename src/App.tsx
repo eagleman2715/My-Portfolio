@@ -15,7 +15,6 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 import { ContactSection } from './components/ContactSection';
 import { ResumeModal } from './components/ResumeModal';
 import { CustomizeDrawer } from './components/CustomizeDrawer';
-import { ExportModal } from './components/ExportModal';
 import {
   DEFAULT_PROFILE,
   DEFAULT_PROJECTS,
@@ -24,7 +23,7 @@ import {
   DEFAULT_TESTIMONIALS
 } from './data/defaultData';
 import { UserProfile, Project } from './types/portfolio';
-import { Sparkles, Menu, X, ArrowDown, FileText, Mail, Phone, CheckCircle, Video, Rocket } from 'lucide-react';
+import { Sparkles, Menu, X, ArrowDown, FileText, Mail, Phone, CheckCircle, Video, MessageCircle, ExternalLink } from 'lucide-react';
 
 export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -59,7 +58,6 @@ export default function App() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [isCustomizeOpen, setIsCustomizeOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
-  const [isExportOpen, setIsExportOpen] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -120,28 +118,33 @@ export default function App() {
       {/* Mobile Top Header */}
       <header className="lg:hidden sticky top-0 z-40 w-full px-5 py-3.5 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-xs">
-            RM
+          <div className="w-9 h-9 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shrink-0 bg-blue-100 dark:bg-zinc-800">
+            <img
+              src="/assets/aistudio/regi_avatar.jpg"
+              alt="Regi Manabat"
+              className="w-full h-full object-cover object-top"
+            />
           </div>
           <div>
             <div className="text-sm font-bold text-zinc-950 dark:text-zinc-50 font-display">
               {profile.name}
             </div>
             <div className="text-[10px] text-zinc-500 font-mono">
-              Automation & Systems Specialist
+              @regimanabat · 9 Years Virtual Assistant
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setIsExportOpen(true)}
-            className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold bg-blue-600 text-white rounded-lg shadow-xs"
-            title="Export / Go live outside AI Studio"
+        <div className="flex items-center gap-1.5">
+          <a
+            href="https://wa.me/61414998826"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/60"
+            title="Chat on WhatsApp (+61 414 998 826)"
           >
-            <Rocket className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Go Live</span>
-          </button>
+            <MessageCircle className="w-4 h-4" />
+          </a>
           <a
             href="#highlight"
             className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded-lg border border-blue-200 dark:border-blue-900"
@@ -175,10 +178,6 @@ export default function App() {
               setMobileSidebarOpen(false);
               setIsCustomizeOpen(true);
             }}
-            onOpenExport={() => {
-              setMobileSidebarOpen(false);
-              setIsExportOpen(true);
-            }}
           />
         </div>
 
@@ -187,7 +186,7 @@ export default function App() {
           {/* Hero Welcome Banner */}
           <section className="space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-200/60 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider">
-              <span>Technical Operations & Systems Integration</span>
+              <span>Technical Operations & Systems Integration · 9 Years Virtual Assistant</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50 font-display leading-[1.15] text-balance">
@@ -195,7 +194,7 @@ export default function App() {
             </h1>
 
             <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 max-w-3xl leading-relaxed">
-              Technical virtual assistant and automation specialist with nearly nine years of remote experience helping agencies and service businesses streamline operations through CRM automation, systems integration and workflow optimization.
+              Technical virtual assistant and automation specialist with 9 years of experience helping agencies and service businesses streamline operations through CRM automation, systems integration and workflow optimization.
             </p>
 
             {/* Quick action buttons */}
@@ -206,6 +205,16 @@ export default function App() {
               >
                 <Video className="w-4 h-4" />
                 <span>Watch Client Integration Video Walkthrough</span>
+              </a>
+
+              <a
+                href="https://wa.me/61414998826"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold text-emerald-800 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 rounded-xl transition-colors cursor-pointer"
+              >
+                <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>WhatsApp: +61 414 998 826</span>
               </a>
 
               <a
@@ -294,12 +303,6 @@ export default function App() {
         profile={profile}
         onSaveProfile={handleSaveProfile}
         onResetToDefaults={handleResetProfile}
-      />
-
-      {/* Export / Go Live Modal */}
-      <ExportModal
-        isOpen={isExportOpen}
-        onClose={() => setIsExportOpen(false)}
       />
     </div>
   );

@@ -97,24 +97,37 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, onOpenR
               {/* Direct Phone & WhatsApp */}
               <div className="flex items-start justify-between pb-3 border-b border-zinc-100 dark:border-zinc-800">
                 <div>
-                  <div className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">Phone / WhatsApp</div>
+                  <div className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">WhatsApp / Phone</div>
                   <a
-                    href={`tel:${profile.phone.replace(/\s+/g, '')}`}
-                    className="text-base font-semibold text-zinc-900 dark:text-zinc-100 hover:underline font-mono"
+                    href="https://wa.me/61414998826"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-base font-semibold text-emerald-600 dark:text-emerald-400 hover:underline font-mono"
                   >
-                    {profile.phone}
+                    +61 414 998 826
                   </a>
                   <div className="text-xs text-zinc-500 mt-0.5">
-                    WhatsApp Available
+                    Click to open WhatsApp directly
                   </div>
                 </div>
-                <button
-                  onClick={handleCopyPhone}
-                  className="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 cursor-pointer transition-colors"
-                  title="Copy phone to clipboard"
-                >
-                  {copiedPhone ? <Check className="w-4 h-4 text-zinc-950 dark:text-zinc-100" /> : <Copy className="w-4 h-4" />}
-                </button>
+                <div className="flex items-center gap-1.5">
+                  <a
+                    href="https://wa.me/61414998826"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-lg border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 cursor-pointer transition-colors"
+                    title="Open WhatsApp chat"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                  </a>
+                  <button
+                    onClick={handleCopyPhone}
+                    className="p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 cursor-pointer transition-colors"
+                    title="Copy phone to clipboard"
+                  >
+                    {copiedPhone ? <Check className="w-4 h-4 text-zinc-950 dark:text-zinc-100" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
               {/* Geographic availability */}
@@ -129,8 +142,17 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, onOpenR
                 </div>
               </div>
 
-              {/* Download original CV PDF button */}
+              {/* Direct WhatsApp Action and Download original CV PDF button */}
               <div className="pt-2 flex flex-col gap-2">
+                <a
+                  href="https://wa.me/61414998826"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-emerald-900 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 rounded-lg transition-colors cursor-pointer shadow-xs"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span>Chat on WhatsApp: +61 414 998 826</span>
+                </a>
                 <a
                   href={profile.cvPdfUrl}
                   download="Reginald_Manabat_CV_2026.pdf"

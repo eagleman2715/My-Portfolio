@@ -3,18 +3,18 @@ import { UserProfile, Project, ExperienceItem, SkillGroup, Testimonial } from '.
 export const DEFAULT_PROFILE: UserProfile = {
   name: "Regi Manabat",
   preferredName: "Reginald Manabat",
-  role: "Technical Operations & Automation Specialist",
+  role: "Technical Virtual Assistant & Automation Specialist",
   secondaryTitle: "GoHighLevel Architect · Systems Integration · Tradie Operations",
   location: "Philippines · Supporting Australia & Global Teams",
   availability: "Available for Remote Full-Time, Agency Contracts & Systems Integrations",
   email: "manabat99@yahoo.com",
   alternateEmail: "manabat99@gmail.com",
-  phone: "+63 977 447 3402",
+  phone: "+61 414 998 826",
   cvPdfUrl: "/assets/aistudio/Reginald_Manabat_-_CV_2026__1__7b6739c5.pdf",
   github: "https://github.com",
   linkedin: "https://linkedin.com",
-  bio: "Technical virtual assistant and automation specialist with nearly nine years of remote experience helping agencies and service businesses streamline operations through CRM automation, systems integration and workflow optimization.",
-  leadParagraph: "With nearly nine years of remote technical experience, I build resilient systems that run without you. From multi-way GoHighLevel workflows and job-management software integrations (ServiceM8, simPRO, ServiceTitan, AroFlo) to n8n pipelines, quote follow-up engines, and high-converting funnels, I empower business owners to eliminate admin bottlenecks and scale sustainably.",
+  bio: "Technical virtual assistant and automation specialist with 9 years of experience helping agencies and service businesses streamline operations through CRM automation, systems integration and workflow optimization.",
+  leadParagraph: "With 9 years of experience as a technical virtual assistant and automation specialist, I build resilient systems that run without you. From multi-way GoHighLevel workflows and job-management software integrations (ServiceM8, simPRO, ServiceTitan, AroFlo) to n8n pipelines, quote follow-up engines, and high-converting funnels, I empower business owners to eliminate admin bottlenecks and scale sustainably.",
   industries: [
     "Plumbing",
     "Electrical",
@@ -26,7 +26,7 @@ export const DEFAULT_PROFILE: UserProfile = {
     "Trade Services"
   ],
   stats: [
-    { label: "Remote Experience", value: "9 Yrs", detail: "Continuous remote technical operations" },
+    { label: "Virtual Assistant", value: "9 Yrs", detail: "Continuous technical virtual assistant & operations" },
     { label: "Agency Users Supported", value: "350+", detail: "Concurrent users on single agency instance" },
     { label: "Industries Streamlined", value: "8+", detail: "Specialized in home & trade services" },
     { label: "Manual Admin Reduction", value: "100%", detail: "Automated quotes, invoices & review cycles" }

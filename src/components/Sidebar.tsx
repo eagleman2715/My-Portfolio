@@ -17,7 +17,7 @@ import {
   ExternalLink,
   SlidersHorizontal,
   Download,
-  Rocket
+  MessageCircle
 } from 'lucide-react';
 import { UserProfile } from '../types/portfolio';
 
@@ -28,7 +28,6 @@ interface SidebarProps {
   onToggleDarkMode: () => void;
   onOpenResume: () => void;
   onOpenCustomize: () => void;
-  onOpenExport: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -38,7 +37,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleDarkMode,
   onOpenResume,
   onOpenCustomize,
-  onOpenExport,
 }) => {
   const [clickedNavId, setClickedNavId] = React.useState<string | null>(null);
 
@@ -46,7 +44,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'top', label: 'Home', icon: Home },
     { id: 'highlight', label: 'Video Walkthrough', icon: Video, isHighlight: true },
     { id: 'method', label: 'The Method', icon: Layers },
-    { id: 'services', label: 'Services', icon: Layers },
+    { id: 'services', label: 'Capabilities & Services', icon: Layers },
     { id: 'work', label: 'Workflows & Builds', icon: Workflow },
     { id: 'simulator', label: 'Integration Lab', icon: Cpu },
     { id: 'experience', label: 'Experience', icon: Briefcase },
@@ -57,20 +55,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <aside className="w-full lg:w-64 xl:w-72 shrink-0 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-between p-6 border-b lg:border-b-0 lg:border-r border-zinc-200/80 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md z-30 transition-colors">
-      {/* Top Profile Card */}
+      {/* Top Profile Card matching Kenneth Villar reference */}
       <div>
-        <div className="flex items-center gap-3.5 mb-5">
-          {/* Cozy Avatar with Verified Badge */}
+        <div className="flex flex-col items-start gap-3.5 mb-5">
+          {/* Cartoon Avatar matching Kenneth Villar reference */}
           <div className="relative">
-            <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-white dark:border-zinc-800 shadow-sm bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-zinc-800 dark:to-zinc-900 flex items-center justify-center">
-              <span className="text-xl font-extrabold text-blue-900 dark:text-blue-200 font-display">
-                RM
-              </span>
+            <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden border-2 border-white dark:border-zinc-800 shadow-sm bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-zinc-900 dark:to-zinc-800 flex items-center justify-center">
+              <img
+                src="/assets/aistudio/regi_avatar.jpg"
+                alt="Regi Manabat cartoon avatar"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
             {/* Verified Badge */}
             <div
-              className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-xs"
-              title="Verified Technical Specialist"
+              className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-xs border-2 border-white dark:border-zinc-900"
+              title="Verified Technical Virtual Assistant"
             >
               <CheckCircle className="w-3.5 h-3.5 fill-current" />
             </div>
@@ -78,12 +78,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-bold text-base text-zinc-950 dark:text-zinc-50 font-display">
+              <span className="font-bold text-lg text-zinc-950 dark:text-zinc-50 font-display">
                 {profile.name}
               </span>
             </div>
-            <div className="text-xs text-zinc-500 dark:text-zinc-400 font-mono">
-              @regimanabat · 9 Yrs Remote Experience
+            <div className="text-xs text-zinc-500 dark:text-zinc-400 font-mono mt-0.5">
+              @regimanabat · 9 Years Virtual Assistant
             </div>
           </div>
         </div>
@@ -98,9 +98,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <Mail className="w-4 h-4" />
           </a>
           <a
-            href={`tel:${profile.phone.replace(/\s+/g, '')}`}
+            href="https://wa.me/61414998826"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-xl text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 transition-colors cursor-pointer"
+            title="Chat on WhatsApp (+61 414 998 826)"
+          >
+            <MessageCircle className="w-4 h-4" />
+          </a>
+          <a
+            href="tel:+61414998826"
             className="p-2 rounded-xl text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
-            title="Phone / WhatsApp"
+            title="Call +61 414 998 826"
           >
             <Phone className="w-4 h-4" />
           </a>
@@ -157,16 +166,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
       </div>
 
-      {/* Bottom Profile Footer */}
+      {/* Bottom Profile Footer without Go Live button */}
       <div className="pt-5 border-t border-zinc-200/80 dark:border-zinc-800/80 space-y-3">
-        <button
-          onClick={onOpenExport}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors cursor-pointer shadow-xs"
-        >
-          <Rocket className="w-3.5 h-3.5" />
-          <span>Go Live Outside AI Studio</span>
-        </button>
-
         <button
           onClick={onOpenResume}
           className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold text-zinc-800 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-colors cursor-pointer"

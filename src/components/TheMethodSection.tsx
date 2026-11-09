@@ -1,62 +1,103 @@
 import React from 'react';
-import { Download, RefreshCw, Send, CheckCircle2, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
+import {
+  CheckCircle2,
+  ArrowRight,
+  MessageCircle,
+  Cpu,
+  Workflow,
+  Share2,
+  Sparkles,
+  TrendingUp,
+  LayoutTemplate,
+  BarChart3,
+  Bot
+} from 'lucide-react';
 
 export const TheMethodSection: React.FC = () => {
   const services = [
     {
-      index: '01 / 05',
-      title: 'Two-Way Systems Integration',
-      tagline: 'ServiceM8, simPRO, ServiceTitan & AroFlo connected directly with GoHighLevel.',
+      index: '01 / 06',
+      category: 'CRM SYSTEMS & AUTOMATION',
+      title: 'GoHighLevel CRM & Workflow Automation',
+      tagline: 'Build and optimise CRM systems that manage your leads, customers, and day-to-day business processes.',
+      badge: 'GHL EXPERT',
+      icon: Workflow,
+      points: [
+        'Custom pipelines, workflows, and automation triggers',
+        'Automated lead nurturing and customer journeys',
+        'CRM setup, custom fields, tags, and opportunity management'
+      ],
+      whatsappMsg: 'Hi Regi, I am interested in GoHighLevel CRM & Workflow Automation for my business.'
+    },
+    {
+      index: '02 / 06',
+      category: 'AI-POWERED AUTOMATION',
+      title: 'AI Agents & Intelligent Business Automation',
+      tagline: 'Use AI to handle repetitive tasks, improve customer interactions, and streamline business processes.',
+      badge: 'SMART AI',
+      icon: Bot,
+      points: [
+        'AI-powered website chat and lead qualification',
+        'Automated enquiry handling and customer responses',
+        'AI-assisted workflows and business process automation'
+      ],
+      whatsappMsg: 'Hi Regi, I am interested in AI Agents & Intelligent Business Automation.'
+    },
+    {
+      index: '03 / 06',
+      category: 'SYSTEM INTEGRATION',
+      title: 'CRM & Third-Party Integrations',
+      tagline: 'Connect your business tools so information flows between platforms without unnecessary manual data entry.',
       badge: '2-WAY LIVE SYNC',
+      icon: Cpu,
       points: [
-        'Quotes created in GHL sync to job software',
-        'Status updates sync back automatically',
-        'Zero manual data re-entry for tradies'
-      ]
+        'ServiceM8, simPRO, ServiceTitan, and AroFlo integrations',
+        'API, webhook, Zapier, and n8n integrations',
+        'Automated data synchronisation and status updates'
+      ],
+      whatsappMsg: 'Hi Regi, I want to connect my CRM with field software like ServiceM8 / simPRO / ServiceTitan via n8n.'
     },
     {
-      index: '02 / 05',
-      title: 'GoHighLevel Automations',
-      tagline: 'Multi-branch customer journeys and lead follow-up that runs on its own 24/7.',
-      badge: 'RUNS 24/7',
+      index: '04 / 06',
+      category: 'SALES & REVENUE AUTOMATION',
+      title: 'Lead, Quote & Invoice Follow-ups',
+      tagline: 'Build automated follow-up systems that help businesses convert more enquiries, secure more jobs, and collect payments faster.',
+      badge: 'REVENUE ACCELERATOR',
+      icon: TrendingUp,
       points: [
-        'Instant SMS & email response < 60s',
-        'Leads move through pipeline stages',
-        'Eliminates missed inquiry drop-off'
-      ]
+        'Automated lead response and quote follow-ups',
+        'Invoice reminders and overdue payment sequences',
+        'Lead reactivation and customer retention campaigns'
+      ],
+      whatsappMsg: 'Hi Regi, I would like to set up automated Lead, Quote & Invoice Follow-up sequences.'
     },
     {
-      index: '03 / 05',
-      title: 'Quote & Invoice Follow-ups',
-      tagline: 'Automated chasing that dramatically boosts quote acceptance rates.',
-      badge: '+34% CONVERSION',
-      points: [
-        'Automated reminders on sent quotes',
-        '1-click digital approval & deposit links',
-        'Eliminates awkward Friday manual chasing'
-      ]
-    },
-    {
-      index: '04 / 05',
-      title: 'Tradie Funnels & Websites',
-      tagline: 'Fast, conversion-focused landing pages engineered for plumbers, electricians & HVAC.',
+      index: '05 / 06',
+      category: 'FUNNELS & CONVERSION SYSTEMS',
+      title: 'Landing Pages, Funnels & Booking Automation',
+      tagline: 'Build high-converting pages and automated booking systems that turn interest into booked jobs and paid services.',
       badge: 'BUILT TO CONVERT',
+      icon: LayoutTemplate,
       points: [
-        'High-converting mobile-first layout',
-        'Integrated with live calendar booking',
-        'Clean VSL & social proof widgets'
-      ]
+        'Custom landing pages and appointment booking funnels',
+        'Calendar integration, SMS reminders, and schedule management',
+        'Pre-qualification forms, payment links, and conversion tracking'
+      ],
+      whatsappMsg: 'Hi Regi, I need a high-converting landing page and appointment booking funnel.'
     },
     {
-      index: '05 / 05',
-      title: 'Review Gating & Reputation',
-      tagline: 'Smart sentiment gate ensuring only 4-5★ ratings reach public Google review pages.',
-      badge: 'REPUTATION SHIELD',
+      index: '06 / 06',
+      category: 'CUSTOMER EXPERIENCE & REPORTING',
+      title: 'Reputation Management & Business Intelligence',
+      tagline: 'Automate post-job workflows, customer feedback collection, and custom operational reporting.',
+      badge: 'REPUTATION & DATA',
+      icon: BarChart3,
       points: [
-        'Scores 4-5★ guided directly to Google',
-        'Scores 0-3★ routed to private owner alert',
-        'Builds 4.9+ star public authority'
-      ]
+        'Automated review requests & smart review gating (4-5★ to Google)',
+        'Customer feedback, post-job surveys & referral loops',
+        'Custom reporting dashboards, n8n data aggregation & BI reports'
+      ],
+      whatsappMsg: 'Hi Regi, I am looking for Reputation Management and Business Intelligence reporting dashboards.'
     }
   ];
 
@@ -143,53 +184,94 @@ export const TheMethodSection: React.FC = () => {
         </div>
       </div>
 
-      {/* What I can do for you. Pick one or stack a few. (From image_eb8d8854.png) */}
+      {/* Capabilities & Services requested by user */}
       <div id="services" className="space-y-4 scroll-mt-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
           <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1 font-display">
+            <div className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 font-display">
               CAPABILITIES & SERVICES
             </div>
-            <h3 className="text-2xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight font-display">
-              What I can do for you. <span className="text-zinc-500 font-normal text-lg">Pick one or stack a few.</span>
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 dark:text-zinc-50 tracking-tight font-display">
+              Automation that works for your business.
             </h3>
+            <p className="text-sm text-zinc-600 dark:text-zinc-300 mt-1 max-w-2xl">
+              From lead capture to job management, I build connected systems that help businesses save time, respond faster, and operate more efficiently.
+            </p>
           </div>
+          <a
+            href="https://wa.me/61414998826?text=Hi%20Regi,%20I'd%20like%20to%20discuss%20an%20automation%20project%20for%20my%20business."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-colors shrink-0 shadow-xs cursor-pointer"
+          >
+            <MessageCircle className="w-3.5 h-3.5" />
+            <span>Chat on WhatsApp</span>
+          </a>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {services.map((item, idx) => (
-            <div
-              key={idx}
-              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-xs flex flex-col justify-between hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors"
-            >
-              <div>
-                <div className="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
-                  <span>{item.index}</span>
-                  <span className="px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-[10px] font-sans font-bold text-zinc-700 dark:text-zinc-300">
-                    {item.badge}
-                  </span>
+          {services.map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={idx}
+                className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-xs flex flex-col justify-between hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-200"
+              >
+                <div>
+                  <div className="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
+                    <span className="font-semibold text-zinc-500 dark:text-zinc-400">{item.index}</span>
+                    <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[10px] font-sans font-bold text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40">
+                      {item.badge}
+                    </span>
+                  </div>
+
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
+                    {item.category}
+                  </div>
+
+                  <div className="flex items-start gap-2.5 mb-2">
+                    <div className="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shrink-0 group-hover:bg-blue-50 dark:group-hover:bg-blue-950 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <h4 className="text-base font-bold text-zinc-950 dark:text-zinc-50 font-display leading-snug">
+                      {item.title}
+                    </h4>
+                  </div>
+
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
+                    {item.tagline}
+                  </p>
                 </div>
 
-                <h4 className="text-base font-bold text-zinc-950 dark:text-zinc-50 font-display mb-1.5">
-                  {item.title}
-                </h4>
-                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
-                  {item.tagline}
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800/80 space-y-1.5">
-                {item.points.map((p, pIdx) => (
-                  <div key={pIdx} className="flex items-start gap-2 text-xs text-zinc-700 dark:text-zinc-300">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-zinc-500 dark:text-zinc-400 shrink-0 mt-0.5" />
-                    <span>{p}</span>
+                <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800/80 space-y-3">
+                  <div className="space-y-1.5">
+                    {item.points.map((p, pIdx) => (
+                      <div key={pIdx} className="flex items-start gap-2 text-xs text-zinc-700 dark:text-zinc-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                        <span className="leading-snug">{p}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
+
+                  <a
+                    href={`https://wa.me/61414998826?text=${encodeURIComponent(item.whatsappMsg)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-between w-full px-3 py-2 text-xs font-semibold rounded-xl bg-zinc-50 hover:bg-emerald-50 dark:bg-zinc-800/60 dark:hover:bg-emerald-950/40 text-zinc-700 hover:text-emerald-700 dark:text-zinc-300 dark:hover:text-emerald-300 border border-zinc-200/70 hover:border-emerald-300 dark:border-zinc-700 dark:hover:border-emerald-800 transition-colors cursor-pointer group/cta"
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <MessageCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                      <span>Inquire via WhatsApp</span>
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover/cta:translate-x-0.5 transition-transform" />
+                  </a>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
   );
 };
+

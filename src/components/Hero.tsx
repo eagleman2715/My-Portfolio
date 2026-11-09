@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowDown, Copy, Check, FileText, Mail, Phone, ExternalLink, Workflow } from 'lucide-react';
+import { ArrowDown, Copy, Check, FileText, Mail, Phone, ExternalLink, Workflow, MessageCircle } from 'lucide-react';
 import { UserProfile } from '../types/portfolio';
 
 interface HeroProps {
@@ -32,9 +32,9 @@ export const Hero: React.FC<HeroProps> = ({ profile, onOpenResume }) => {
           <div className="lg:col-span-7 flex flex-col justify-center">
             {/* Clean unboxed kicker metadata */}
             <div className="flex flex-wrap items-center gap-2 text-xs font-semibold tracking-wider uppercase text-zinc-500 dark:text-zinc-400 mb-4">
-              <span>Technical Operations & Automation Specialist</span>
+              <span>Technical Virtual Assistant & Automation Specialist</span>
               <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-700">·</span>
-              <span className="text-zinc-800 dark:text-zinc-200">9 Yrs Remote Experience</span>
+              <span className="text-zinc-800 dark:text-zinc-200">9 Years Virtual Assistant</span>
             </div>
 
             {/* Display Headline - verbatim from CV */}
@@ -64,7 +64,17 @@ export const Hero: React.FC<HeroProps> = ({ profile, onOpenResume }) => {
                 className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 rounded-lg transition-colors shadow-xs cursor-pointer"
               >
                 <span>View Integration Samples</span>
-                <ArrowDown className="w-4 h-4" />
+                <ArrowDown className="w-4 h-4 animate-bounce" />
+              </a>
+
+              <a
+                href="https://wa.me/61414998826"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-emerald-800 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 rounded-lg transition-colors cursor-pointer"
+              >
+                <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>Chat on WhatsApp</span>
               </a>
 
               <a
@@ -95,13 +105,24 @@ export const Hero: React.FC<HeroProps> = ({ profile, onOpenResume }) => {
                 )}
               </button>
 
+              <a
+                href="https://wa.me/61414998826"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 font-mono text-xs text-emerald-700 dark:text-emerald-400 hover:underline transition-colors cursor-pointer py-1"
+                title="Chat directly on WhatsApp"
+              >
+                <MessageCircle className="w-3.5 h-3.5 text-emerald-500" />
+                <span>WhatsApp: +61 414 998 826</span>
+              </a>
+
               <button
                 onClick={handleCopyPhone}
                 className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-800 dark:text-zinc-200 hover:text-zinc-950 dark:hover:text-zinc-100 transition-colors cursor-pointer py-1"
                 title="Click to copy phone number"
               >
                 <Phone className="w-3.5 h-3.5 text-zinc-400" />
-                <span>{profile.phone}</span>
+                <span>+61 414 998 826</span>
                 {copiedPhone ? (
                   <span className="inline-flex items-center gap-1 text-[11px] text-zinc-900 dark:text-zinc-100 font-sans ml-1 font-semibold">
                     <Check className="w-3 h-3" /> Copied
