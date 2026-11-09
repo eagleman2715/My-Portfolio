@@ -1,0 +1,103 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.45);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes arrowSlideRight {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes cursorArrowBounce {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) translateX(2px) rotate(4deg);
+  }
+}
+
+@keyframes cursorPointerPulse {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.12) translate(3px, -2px);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-arrow-slide {
+  animation: arrowSlideRight 1.6s ease-in-out infinite;
+}
+
+.animate-cursor-arrow {
+  animation: cursorArrowBounce 1.8s ease-in-out infinite;
+  display: inline-block;
+}
+
+.animate-cursor-pointer {
+  animation: cursorPointerPulse 2s ease-in-out infinite;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-arrow-slide,
+  .animate-cursor-arrow,
+  .animate-cursor-pointer {
+    animation: none;
+    transform: none;
+  }
+}
