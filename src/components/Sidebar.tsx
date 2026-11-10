@@ -15,7 +15,6 @@ import {
   Moon,
   CheckCircle,
   ExternalLink,
-  SlidersHorizontal,
   Download,
   MessageCircle
 } from 'lucide-react';
@@ -27,7 +26,6 @@ interface SidebarProps {
   darkMode: boolean;
   onToggleDarkMode: () => void;
   onOpenResume: () => void;
-  onOpenCustomize: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -36,7 +34,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
   darkMode,
   onToggleDarkMode,
   onOpenResume,
-  onOpenCustomize,
 }) => {
   const [clickedNavId, setClickedNavId] = React.useState<string | null>(null);
 
@@ -174,14 +171,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <FileText className="w-3.5 h-3.5" />
           <span>Curriculum Vitae</span>
-        </button>
-
-        <button
-          onClick={onOpenCustomize}
-          className="w-full flex items-center justify-center gap-2 px-3 py-1.5 text-[11px] text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
-        >
-          <SlidersHorizontal className="w-3 h-3" />
-          <span>Edit Profile Data</span>
         </button>
 
         <div className="text-[11px] text-zinc-400 dark:text-zinc-600 leading-tight">
