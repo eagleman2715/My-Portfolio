@@ -10,23 +10,23 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ skillGroups, indus
   const [selectedGroupIdx, setSelectedGroupIdx] = useState(0);
 
   return (
-    <section id="skills" className="py-16 md:py-24 border-t border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100/30 dark:bg-zinc-950/30">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8">
+    <section id="skills" className="py-10 md:py-14 border-t border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-100/30 dark:bg-zinc-950/30">
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
         {/* Section Header */}
-        <div className="mb-12">
+        <div className="mb-8">
           <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">
             Core Competencies
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50 font-display">
             Technical Stack & Operational Expertise
           </h2>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-2 max-w-2xl">
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-2 max-w-3xl">
             Proficiencies across CRM architecture, multi-tiered webhook routing, field service integration, and business operations.
           </p>
         </div>
 
         {/* 2-Column Responsive Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left: Category Nav Selector */}
           <div className="lg:col-span-4 flex flex-col gap-2">
             {skillGroups.map((group, idx) => {
@@ -53,8 +53,8 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ skillGroups, indus
           </div>
 
           {/* Right: Detailed Skill Breakdown */}
-          <div className="lg:col-span-8 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs">
-            <div className="mb-6 pb-4 border-b border-zinc-100 dark:border-zinc-800">
+          <div className="lg:col-span-8 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 sm:p-6 shadow-xs">
+            <div className="mb-5 pb-4 border-b border-zinc-100 dark:border-zinc-800">
               <h3 className="text-lg font-bold text-zinc-950 dark:text-zinc-50 font-display">
                 {skillGroups[selectedGroupIdx]?.category}
               </h3>
@@ -63,7 +63,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ skillGroups, indus
               </p>
             </div>
 
-            <div className="space-y-5">
+            <div className="space-y-4">
               {skillGroups[selectedGroupIdx]?.skills.map((skill, sIdx) => (
                 <div key={sIdx} className="space-y-1.5">
                   <div className="flex items-center justify-between text-xs">
@@ -91,7 +91,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ skillGroups, indus
             </div>
 
             {/* Specialization note */}
-            <div className="mt-8 pt-6 border-t border-zinc-100 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-4 text-xs text-zinc-500 dark:text-zinc-400">
+            <div className="mt-6 pt-5 border-t border-zinc-100 dark:border-zinc-800 flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-500 dark:text-zinc-400">
               <span className="font-medium text-zinc-700 dark:text-zinc-300">
                 Specialized Verticals:
               </span>
