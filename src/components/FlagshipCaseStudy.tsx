@@ -14,15 +14,17 @@ import {
 } from 'lucide-react';
 
 // ---- Edit these as needed -------------------------------------------------
-const REAL_SCREENSHOT = '/assets/aistudio/GHL_to_ServiceM8_-_n8n_integration_04786b84.png';
-
 // Replace with your exact scope before publishing, e.g. "Built the n8n layer and GHL workflows".
 const MY_SCOPE = '[Add: your exact role on this project]';
 
-const PLACEHOLDER_SHOTS = [
-  { label: 'ServiceM8 job / quote view', hint: 'Add a ServiceM8 screenshot' },
-  { label: 'GoHighLevel pipeline view', hint: 'Add a GHL pipeline screenshot' },
+// Real screenshots already used in the ghl-servicem8-sync project. Check each caption matches the image.
+const SCREENSHOTS = [
+  { src: '/assets/aistudio/GHL_to_ServiceM8_-_n8n_integration_04786b84.png', alt: 'n8n workflow from GoHighLevel to ServiceM8', caption: 'n8n workflow: GoHighLevel → ServiceM8' },
+  { src: '/assets/aistudio/ServiceM8_to_GHL_-_n8n_Integration_f402b862.png', alt: 'n8n workflow from ServiceM8 to GoHighLevel', caption: 'n8n workflow: ServiceM8 → GoHighLevel' },
+  { src: '/assets/aistudio/ServiceM8_fd868cea.jpeg', alt: 'ServiceM8 screenshot', caption: 'ServiceM8' },
 ];
+
+const PLACEHOLDER_SHOTS = [{ label: 'GoHighLevel pipeline view', hint: 'Add a GHL pipeline screenshot' }];
 // ---------------------------------------------------------------------------
 
 const architecture = [
@@ -191,22 +193,19 @@ export const FlagshipCaseStudy: React.FC = () => {
         <div className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           Screenshots
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <figure className="md:col-span-1 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-950">
-            <img
-              src={REAL_SCREENSHOT}
-              alt="n8n workflow connecting GoHighLevel and ServiceM8"
-              loading="lazy"
-              className="w-full h-48 object-cover object-left-top"
-            />
-            <figcaption className="px-3 py-2 text-[11px] text-zinc-400 font-mono border-t border-zinc-800">
-              Actual n8n workflow
-            </figcaption>
-          </figure>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {SCREENSHOTS.map((s) => (
+            <figure key={s.src} className="rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-950">
+              <img src={s.src} alt={s.alt} loading="lazy" className="w-full h-40 object-cover object-left-top" />
+              <figcaption className="px-3 py-2 text-[11px] text-zinc-400 font-mono border-t border-zinc-800">
+                {s.caption}
+              </figcaption>
+            </figure>
+          ))}
           {PLACEHOLDER_SHOTS.map((p) => (
             <div
               key={p.label}
-              className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 flex flex-col items-center justify-center text-center p-4 h-48 md:h-auto bg-zinc-50 dark:bg-zinc-900/50"
+              className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 flex flex-col items-center justify-center text-center p-4 h-40 md:h-auto bg-zinc-50 dark:bg-zinc-900/50"
             >
               <ImageOff className="w-5 h-5 text-zinc-400 mb-2" />
               <div className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{p.label}</div>

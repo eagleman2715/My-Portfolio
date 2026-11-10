@@ -10,7 +10,7 @@ interface ProjectsSectionProps {
 
 /**
  * Layout uses a 6-column grid on large screens so every row fills edge to edge:
- *  - span 6: featured card (paired comparisons), full width, image left / text right
+ *  - span 6: featured card (flagship and paired comparisons), full width, image left / text right
  *  - span 2: standard card, three per row
  *  - span 3: used when two cards are left over at the end of a run
  *  - span 6: used when one card is left over (so no empty slot is ever left on the right)
@@ -44,7 +44,7 @@ const getSpans = (items: Project[]): Span[] => {
   };
 
   items.forEach((p, i) => {
-    if (p.pairedComparison) {
+    if (p.pairedComparison || p.featured) {
       flush();
       spans[i] = 6;
     } else {
@@ -64,14 +64,22 @@ const categories = [
   'Custom Workflows & Scripts',
 ];
 
+const TYPE_STYLES: Record<Project['projectType'], string> = {
+  'Client Implementation':
+    'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
+  Demonstration:
+    'bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-500/20',
+};
+
 export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) => {
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const filteredProjects = useMemo(
-    () => (activeFilter === 'All' ? projects : projects.filter((p) => p.category === activeFilter)),
-    [projects, activeFilter]
-  );
+  // The flagship project always comes first, the rest keep their order.
+  const filteredProjects = useMemo(() => {
+    const list = activeFilter === 'All' ? projects : projects.filter((p) => p.category === activeFilter);
+    return [...list].sort((a, b) => Number(!!b.featured) - Number(!!a.featured));
+  }, [projects, activeFilter]);
 
   const spans = useMemo(() => getSpans(filteredProjects), [filteredProjects]);
 
@@ -100,7 +108,8 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
               Real workflows, funnels and GHL builds you can open.
             </h2>
             <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-2 max-w-2xl">
-              Everything here shipped to production. Open any card to walk through the system architecture at full size.
+              Open any card for the problem, the solution, the workflow steps and the tools used. Each one is
+              labelled as a client implementation or a demonstration.
             </p>
           </div>
 
@@ -114,12 +123,12 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
       {/* Filter Tabs */}
       <Reveal variant="up" delay={100}>
         <div className="max-w-full overflow-x-auto">
-          <div className="flex items-center gap-1 p-1 bg-zinc-200/60 dark:bg-zinc-800/60 rounded-xl w-fit">
+          <div className="flex items-center gap-1 p-1 bg-zinc-200/60 dark:bg-zinc-800/60 rounded-lg w-fit">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveFilter(category)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
                   activeFilter === category
                     ? 'bg-white dark:bg-zinc-900 text-zinc-950 dark:text-zinc-100 shadow-2xs font-semibold'
                     : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-200'
@@ -159,7 +168,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
                 }}
                 className={`group relative flex h-full flex-col ${
                   wide ? 'lg:flex-row' : ''
-                } bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200/90 dark:border-zinc-800/90 hover:border-blue-400 dark:hover:border-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 transition-all duration-300 overflow-hidden cursor-pointer shadow-xs hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1`}
+                } bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200/90 dark:border-zinc-800/90 hover:border-blue-400 dark:hover:border-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 transition-all duration-300 overflow-hidden cursor-pointer shadow-xs hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1`}
               >
                 {/* Media */}
                 <div
@@ -170,7 +179,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
                   <div className="absolute inset-0 p-2 sm:p-3">
                     {paired && project.pairedComparison ? (
                       <div className="w-full h-full grid grid-cols-2 gap-2 sm:gap-3">
-                        <div className="relative h-full bg-zinc-900 border border-zinc-800/90 rounded-xl overflow-hidden flex items-center justify-center p-1.5 sm:p-2">
+                        <div className="relative h-full bg-zinc-900 border border-zinc-800/90 rounded-lg overflow-hidden flex items-center justify-center p-1.5 sm:p-2">
                           <img
                             src={project.pairedComparison.imageA}
                             alt={project.pairedComparison.titleA}
@@ -182,7 +191,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
                           </div>
                         </div>
 
-                        <div className="relative h-full bg-zinc-900 border border-zinc-800/90 rounded-xl overflow-hidden flex items-center justify-center p-1.5 sm:p-2">
+                        <div className="relative h-full bg-zinc-900 border border-zinc-800/90 rounded-lg overflow-hidden flex items-center justify-center p-1.5 sm:p-2">
                           <img
                             src={project.pairedComparison.imageB}
                             alt={project.pairedComparison.titleB}
@@ -195,7 +204,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
                         </div>
                       </div>
                     ) : (
-                      <div className="w-full h-full rounded-2xl overflow-hidden">
+                      <div className="w-full h-full rounded-lg overflow-hidden">
                         <img
                           src={project.image}
                           alt={project.title}
@@ -232,11 +241,23 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
                       <span>{project.year}</span>
                     </div>
 
-                    {project.liveUrl && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 mb-3 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                        Live Funnel Available
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      {project.featured && (
+                        <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-600 text-white">
+                          Flagship
+                        </span>
+                      )}
+                      <span
+                        className={`inline-flex items-center text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${TYPE_STYLES[project.projectType]}`}
+                      >
+                        {project.projectType}
                       </span>
-                    )}
+                      {project.liveUrl && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                          Live Funnel Available
+                        </span>
+                      )}
+                    </div>
 
                     <h3
                       className={`font-bold tracking-tight text-zinc-950 dark:text-zinc-50 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-display mb-2 ${
@@ -262,7 +283,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
                         {project.metrics.slice(0, wide ? 3 : 2).map((m, mIdx) => (
                           <span
                             key={mIdx}
-                            className="inline-flex items-baseline gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-100 dark:bg-zinc-800/80 text-xs text-zinc-600 dark:text-zinc-400"
+                            className="inline-flex items-baseline gap-1.5 px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800/80 text-xs text-zinc-600 dark:text-zinc-400"
                           >
                             <span className="font-bold text-zinc-900 dark:text-zinc-100 font-mono tabular-nums">
                               {m.value}
@@ -286,7 +307,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:underline px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200/80 dark:border-emerald-800/80"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:underline px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200/80 dark:border-emerald-800/80"
                         >
                           Visit Live <ExternalLink className="w-3 h-3 animate-arrow-slide" />
                         </a>
