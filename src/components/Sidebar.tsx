@@ -46,7 +46,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'simulator', label: 'Integration Lab', icon: Cpu },
     { id: 'experience', label: 'Experience', icon: Briefcase },
     { id: 'skills', label: 'Expertise', icon: Award },
-    { id: 'testimonials', label: 'Testimonials', icon: MessageSquare },
     { id: 'contact', label: 'Contact', icon: Mail },
   ];
 
@@ -55,13 +54,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Top Profile Card matching Kenneth Villar reference */}
       <div>
         <div className="flex flex-col items-start gap-3.5 mb-5">
-          {/* Cartoon Avatar matching Kenneth Villar reference */}
+          {/* Main Picture matching Kenneth Villar reference */}
           <div className="relative">
-            <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden border-2 border-white dark:border-zinc-800 shadow-sm bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-zinc-900 dark:to-zinc-800 flex items-center justify-center">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-2 border-white dark:border-zinc-800 shadow-sm bg-white dark:bg-zinc-900 flex items-center justify-center">
               <img
-                src="/assets/aistudio/regi_avatar.jpg"
+                src="/assets/aistudio/image_05d5a87d.png"
                 alt="Regi Manabat cartoon avatar"
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-center"
               />
             </div>
             {/* Verified Badge */}

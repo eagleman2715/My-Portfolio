@@ -11,7 +11,6 @@ import { ProjectsSection } from './components/ProjectsSection';
 import { InteractivePlayground } from './components/InteractivePlayground';
 import { ExperienceSection } from './components/ExperienceSection';
 import { SkillsSection } from './components/SkillsSection';
-import { TestimonialsSection } from './components/TestimonialsSection';
 import { ContactSection } from './components/ContactSection';
 import { ResumeModal } from './components/ResumeModal';
 import { CursorLens } from './components/CursorLens';
@@ -20,8 +19,7 @@ import {
   DEFAULT_PROFILE,
   DEFAULT_PROJECTS,
   DEFAULT_EXPERIENCE,
-  DEFAULT_SKILL_GROUPS,
-  DEFAULT_TESTIMONIALS
+  DEFAULT_SKILL_GROUPS
 } from './data/defaultData';
 import { UserProfile, Project } from './types/portfolio';
 import { Sparkles, Menu, X, ArrowDown, FileText, Mail, Phone, CheckCircle, Video, MessageCircle, ExternalLink } from 'lucide-react';
@@ -60,7 +58,6 @@ export default function App() {
   const [projects] = useState<Project[]>(DEFAULT_PROJECTS);
   const [experience] = useState(DEFAULT_EXPERIENCE);
   const [skillGroups] = useState(DEFAULT_SKILL_GROUPS);
-  const [testimonials] = useState(DEFAULT_TESTIMONIALS);
 
   const [activeSection, setActiveSection] = useState('');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -92,7 +89,7 @@ export default function App() {
   // Track active section for sidebar highlighting (excluding 'top' so Home stays unhighlighted unless clicked/hovered)
   // Uses getBoundingClientRect so it stays accurate even when sections are wrapped in animated containers.
   useEffect(() => {
-    const sections = ['highlight', 'method', 'services', 'work', 'simulator', 'experience', 'skills', 'testimonials', 'contact'];
+    const sections = ['highlight', 'method', 'services', 'work', 'simulator', 'experience', 'skills', 'contact'];
     const handleScroll = () => {
       if (window.scrollY < 300) {
         setActiveSection('');
@@ -124,11 +121,11 @@ export default function App() {
       {/* Mobile Top Header */}
       <header className="lg:hidden sticky top-0 z-40 w-full px-5 py-3.5 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shrink-0 bg-blue-100 dark:bg-zinc-800">
+          <div className="w-9 h-9 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shrink-0 bg-white dark:bg-zinc-800">
             <img
-              src="/assets/aistudio/regi_avatar.jpg"
+              src="/assets/aistudio/image_05d5a87d.png"
               alt="Regi Manabat"
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-cover object-center"
             />
           </div>
           <div>
@@ -290,11 +287,6 @@ export default function App() {
           {/* TECHNICAL EXPERTISE MATRIX */}
           <Reveal variant="up">
             <SkillsSection skillGroups={skillGroups} industries={profile.industries} />
-          </Reveal>
-
-          {/* TESTIMONIALS & ENDORSEMENTS */}
-          <Reveal variant="up">
-            <TestimonialsSection testimonials={testimonials} />
           </Reveal>
 
           {/* DIRECT CONTACT & INQUIRY FORM */}

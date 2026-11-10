@@ -1,8 +1,12 @@
+export type ProjectType = 'Client Implementation' | 'Demonstration';
+
 export interface Project {
   id: string;
   title: string;
   tagline: string;
   category: 'CRM & Automation' | 'Systems Integration' | 'Funnels & Landing Pages' | 'Custom Workflows & Scripts';
+  projectType: ProjectType;
+  featured?: boolean;
   year: string;
   clientOrContext: string;
   image: string;
@@ -19,6 +23,9 @@ export interface Project {
   summary: string;
   challenge: string;
   solution: string;
+  myRole?: string;
+  keyWorkflows?: string[];
+  businessImpact?: string[];
   architectureHighlights: string[];
   techStack: string[];
   demoUrl?: string;
@@ -40,7 +47,7 @@ export interface ExperienceItem {
 export interface SkillGroup {
   category: string;
   description: string;
-  skills: { name: string; level: number; note: string }[];
+  skills: { name: string; note: string; level?: number }[];
 }
 
 export interface Testimonial {
@@ -71,3 +78,4 @@ export interface UserProfile {
   industries: string[];
   stats: { label: string; value: string; detail: string }[];
 }
+
