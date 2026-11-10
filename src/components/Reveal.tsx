@@ -14,6 +14,10 @@ interface RevealProps {
   className?: string;
 }
 
+// The hidden theme-preview copy of the page (see CursorLens) should never animate.
+const IS_LENS_FRAME =
+  typeof window !== 'undefined' && /[?&]lens-theme=/.test(window.location.search);
+
 // Full class names so Tailwind can detect them at build time.
 const HIDDEN: Record<RevealVariant, string> = {
   up: 'opacity-0 translate-y-8',
@@ -35,9 +39,11 @@ export const Reveal: React.FC<RevealProps> = ({
   className = '',
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(IS_LENS_FRAME);
 
   useEffect(() => {
+    if (IS_LENS_FRAME) return;
+
     const el = ref.current;
     if (!el) return;
 
@@ -66,8 +72,14 @@ export const Reveal: React.FC<RevealProps> = ({
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: `${delay}ms`, transitionDuration: `${duration}ms` }}
-      className={`transition-all ease-out will-change-transform motion-reduce:!transition-none motion-reduce:!transform-none motion-reduce:!opacity-100 ${
+      style={
+        IS_LENS_FRAME
+          ? undefined
+          : { transitionDelay: `${delay}ms`, transitionDuration: `${duration}ms` }
+      }
+      className={`${
+        IS_LENS_FRAME ? '' : 'transition-all ease-out will-change-transform'
+      } motion-reduce:!transition-none motion-reduce:!transform-none motion-reduce:!opacity-100 ${
         visible ? SHOWN : HIDDEN[variant]
       } ${className}`}
     >

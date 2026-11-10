@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ArrowUpRight, ExternalLink, MousePointerClick } from 'lucide-react';
 import { Project } from '../types/portfolio';
 import { CaseStudyModal } from './CaseStudyModal';
@@ -74,6 +74,18 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) =>
   );
 
   const spans = useMemo(() => getSpans(filteredProjects), [filteredProjects]);
+
+  // Pause the cursor lens while the case study modal is open, so the copy of the page
+  // underneath doesn't show through the popup.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (selectedProject) {
+      root.setAttribute('data-lens-paused', 'true');
+    } else {
+      root.removeAttribute('data-lens-paused');
+    }
+    return () => root.removeAttribute('data-lens-paused');
+  }, [selectedProject]);
 
   return (
     <section id="work" className="w-full space-y-8 scroll-mt-6">

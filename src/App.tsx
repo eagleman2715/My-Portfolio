@@ -14,7 +14,8 @@ import { SkillsSection } from './components/SkillsSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { ContactSection } from './components/ContactSection';
 import { ResumeModal } from './components/ResumeModal';
-import { CustomizeDrawer } from './components/CustomizeDrawer';
+import { CursorLens } from './components/CursorLens';
+import { Reveal } from './components/Reveal';
 import {
   DEFAULT_PROFILE,
   DEFAULT_PROJECTS,
@@ -25,8 +26,15 @@ import {
 import { UserProfile, Project } from './types/portfolio';
 import { Sparkles, Menu, X, ArrowDown, FileText, Mail, Phone, CheckCircle, Video, MessageCircle, ExternalLink } from 'lucide-react';
 
+// When the cursor lens loads a hidden copy of this page in the opposite theme, it adds
+// ?lens-theme=light|dark. That copy must not save its theme or create another lens.
+const LENS_PARAM =
+  typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('lens-theme') : null;
+const IS_LENS_FRAME = LENS_PARAM === 'dark' || LENS_PARAM === 'light';
+
 export default function App() {
   const [darkMode, setDarkMode] = useState<boolean>(() => {
+    if (IS_LENS_FRAME) return LENS_PARAM === 'dark';
     const saved = localStorage.getItem('portfolio_theme');
     if (saved) return saved === 'dark';
     return false; // Default to cozy airy light theme similar to the attached screenshots
@@ -56,21 +64,33 @@ export default function App() {
 
   const [activeSection, setActiveSection] = useState('');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [isCustomizeOpen, setIsCustomizeOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
     if (darkMode) {
       root.classList.add('dark');
-      localStorage.setItem('portfolio_theme', 'dark');
+      if (!IS_LENS_FRAME) localStorage.setItem('portfolio_theme', 'dark');
     } else {
       root.classList.remove('dark');
-      localStorage.setItem('portfolio_theme', 'light');
+      if (!IS_LENS_FRAME) localStorage.setItem('portfolio_theme', 'light');
     }
   }, [darkMode]);
 
+  // Pause the cursor lens while the resume modal is open, so the copy of the page
+  // underneath doesn't show through the popup.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isResumeOpen) {
+      root.setAttribute('data-lens-paused', 'true');
+    } else {
+      root.removeAttribute('data-lens-paused');
+    }
+    return () => root.removeAttribute('data-lens-paused');
+  }, [isResumeOpen]);
+
   // Track active section for sidebar highlighting (excluding 'top' so Home stays unhighlighted unless clicked/hovered)
+  // Uses getBoundingClientRect so it stays accurate even when sections are wrapped in animated containers.
   useEffect(() => {
     const sections = ['highlight', 'method', 'services', 'work', 'simulator', 'experience', 'skills', 'testimonials', 'contact'];
     const handleScroll = () => {
@@ -78,39 +98,25 @@ export default function App() {
         setActiveSection('');
         return;
       }
-      const scrollPos = window.scrollY + 220;
+      const probeLine = 220; // px from the top of the viewport
       for (const sectionId of sections) {
         const el = document.getElementById(sectionId);
         if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= probeLine && rect.bottom > probeLine) {
             setActiveSection(sectionId);
             break;
           }
         }
       }
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleToggleDarkMode = () => {
     setDarkMode((prev) => !prev);
-  };
-
-  const handleSaveProfile = (updated: UserProfile) => {
-    setProfile(updated);
-    try {
-      localStorage.setItem('portfolio_profile', JSON.stringify(updated));
-    } catch (e) {
-      console.error('Failed to save profile to localStorage:', e);
-    }
-  };
-
-  const handleResetProfile = () => {
-    setProfile(DEFAULT_PROFILE);
-    localStorage.removeItem('portfolio_profile');
   };
 
   return (
@@ -154,6 +160,7 @@ export default function App() {
           </a>
           <button
             onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+            aria-label={mobileSidebarOpen ? 'Close menu' : 'Open menu'}
             className="p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
             {mobileSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -161,7 +168,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main Two-Column Layout matching image_eb8d8854.png & image_864a9858.png */}
+      {/* Main Two-Column Layout */}
       <div className="max-w-[1520px] mx-auto flex flex-col lg:flex-row min-h-screen">
         {/* Left Sticky Sidebar (Desktop & Drawer Mobile) */}
         <div className={`${mobileSidebarOpen ? 'block' : 'hidden lg:block'}`}>
@@ -174,106 +181,129 @@ export default function App() {
               setMobileSidebarOpen(false);
               setIsResumeOpen(true);
             }}
-            onOpenCustomize={() => {
-              setMobileSidebarOpen(false);
-              setIsCustomizeOpen(true);
-            }}
           />
         </div>
 
-        {/* Right Main Content Viewport */}
-        <main className="flex-1 px-4 sm:px-8 lg:px-12 py-6 sm:py-10 space-y-12 sm:space-y-16 max-w-6xl">
+        {/* Right Main Content Viewport.
+            max-w-6xl was removed: it capped everything at 1152px and left the right side empty.
+            The outer container (max-w-[1520px]) already limits ultra-wide screens.
+            min-w-0 lets the content shrink properly inside the flex row. */}
+        <main className="flex-1 min-w-0 px-4 sm:px-8 lg:px-10 xl:px-12 py-6 sm:py-8 space-y-10 sm:space-y-12">
           {/* Hero Welcome Banner */}
           <section className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-200/60 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider">
-              <span>Technical Operations & Systems Integration · 9 Years Virtual Assistant</span>
-            </div>
+            <Reveal variant="down">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-200/60 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-semibold uppercase tracking-wider">
+                <span>Technical Operations & Systems Integration · 9 Years Virtual Assistant</span>
+              </div>
+            </Reveal>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50 font-display leading-[1.15] text-balance">
-              Building systems that run without you.
-            </h1>
+            <Reveal variant="up" delay={80}>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50 font-display leading-[1.15] text-balance">
+                Building systems that run without you.
+              </h1>
+            </Reveal>
 
-            <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 max-w-3xl leading-relaxed">
-              Technical virtual assistant and automation specialist with 9 years of experience helping agencies and service businesses streamline operations through CRM automation, systems integration and workflow optimization.
-            </p>
+            <Reveal variant="up" delay={160}>
+              <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 max-w-3xl leading-relaxed">
+                Technical virtual assistant and automation specialist with 9 years of experience helping agencies and service businesses streamline operations through CRM automation, systems integration and workflow optimization.
+              </p>
+            </Reveal>
 
             {/* Quick action buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <a
-                href="#highlight"
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-xs"
-              >
-                <Video className="w-4 h-4" />
-                <span>Watch Client Integration Video Walkthrough</span>
-              </a>
+            <Reveal variant="up" delay={240}>
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <a
+                  href="#highlight"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-xs"
+                >
+                  <Video className="w-4 h-4" />
+                  <span>Watch Client Integration Video Walkthrough</span>
+                </a>
 
-              <a
-                href="https://wa.me/61414998826"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold text-emerald-800 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 rounded-xl transition-colors cursor-pointer"
-              >
-                <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>WhatsApp: +61 414 998 826</span>
-              </a>
+                <a
+                  href="https://wa.me/61414998826"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-semibold text-emerald-800 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 rounded-xl transition-colors cursor-pointer"
+                >
+                  <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>WhatsApp: +61 414 998 826</span>
+                </a>
 
-              <a
-                href={profile.cvPdfUrl}
-                download="Reginald_Manabat_CV_2026.pdf"
-                className="inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-medium text-zinc-800 dark:text-zinc-200 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-xl transition-colors"
-              >
-                <FileText className="w-4 h-4 text-zinc-500" />
-                <span>Download CV (PDF)</span>
-              </a>
-            </div>
+                <a
+                  href={profile.cvPdfUrl}
+                  download="Reginald_Manabat_CV_2026.pdf"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-medium text-zinc-800 dark:text-zinc-200 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-xl transition-colors"
+                >
+                  <FileText className="w-4 h-4 text-zinc-500" />
+                  <span>Download CV (PDF)</span>
+                </a>
+              </div>
+            </Reveal>
 
             {/* Stats At A Glance strip */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-zinc-200/80 dark:border-zinc-800/80">
               {profile.stats.map((st, i) => (
-                <div key={i} className="bg-white/80 dark:bg-zinc-900/80 rounded-2xl p-4 border border-zinc-200/70 dark:border-zinc-800 shadow-2xs">
-                  <div className="text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono tabular-nums">
-                    {st.value}
+                <Reveal key={i} variant="scale" delay={300 + i * 90} className="h-full">
+                  <div className="h-full bg-white/80 dark:bg-zinc-900/80 rounded-2xl p-4 border border-zinc-200/70 dark:border-zinc-800 shadow-2xs">
+                    <div className="text-2xl font-black text-zinc-950 dark:text-zinc-50 font-mono tabular-nums">
+                      {st.value}
+                    </div>
+                    <div className="text-xs font-bold text-zinc-800 dark:text-zinc-200 mt-0.5">
+                      {st.label}
+                    </div>
+                    <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+                      {st.detail}
+                    </div>
                   </div>
-                  <div className="text-xs font-bold text-zinc-800 dark:text-zinc-200 mt-0.5">
-                    {st.label}
-                  </div>
-                  <div className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
-                    {st.detail}
-                  </div>
-                </div>
+                </Reveal>
               ))}
             </div>
           </section>
 
-          {/* THE HIGHLIGHT OF EVERYTHING: Video Walkthrough Section */}
-          <VideoHighlightSection />
+          {/* Video Walkthrough Section */}
+          <Reveal variant="up">
+            <VideoHighlightSection />
+          </Reveal>
 
-          {/* THE METHOD: Capture. Route. Automate. + Services (From image_eb8d8854.png) */}
-          <TheMethodSection />
+          {/* THE METHOD + Services */}
+          <Reveal variant="up">
+            <TheMethodSection />
+          </Reveal>
 
-          {/* REAL BUILDS & WORKFLOWS (From image_864a9858.png) */}
+          {/* REAL BUILDS & WORKFLOWS (animates its own header, tabs and cards) */}
           <ProjectsSection projects={projects} />
 
           {/* INTERACTIVE TRADIE CRM SIMULATOR */}
-          <InteractivePlayground />
+          <Reveal variant="up">
+            <InteractivePlayground />
+          </Reveal>
 
           {/* PROFESSIONAL CAREER HISTORY */}
-          <ExperienceSection
-            experience={experience}
-            onOpenResume={() => setIsResumeOpen(true)}
-          />
+          <Reveal variant="up">
+            <ExperienceSection
+              experience={experience}
+              onOpenResume={() => setIsResumeOpen(true)}
+            />
+          </Reveal>
 
           {/* TECHNICAL EXPERTISE MATRIX */}
-          <SkillsSection skillGroups={skillGroups} industries={profile.industries} />
+          <Reveal variant="up">
+            <SkillsSection skillGroups={skillGroups} industries={profile.industries} />
+          </Reveal>
 
           {/* TESTIMONIALS & ENDORSEMENTS */}
-          <TestimonialsSection testimonials={testimonials} />
+          <Reveal variant="up">
+            <TestimonialsSection testimonials={testimonials} />
+          </Reveal>
 
           {/* DIRECT CONTACT & INQUIRY FORM */}
-          <ContactSection
-            profile={profile}
-            onOpenResume={() => setIsResumeOpen(true)}
-          />
+          <Reveal variant="up">
+            <ContactSection
+              profile={profile}
+              onOpenResume={() => setIsResumeOpen(true)}
+            />
+          </Reveal>
 
           {/* Minimal Viewport Bottom Footer */}
           <footer className="pt-8 border-t border-zinc-200/80 dark:border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
@@ -296,14 +326,8 @@ export default function App() {
         skillGroups={skillGroups}
       />
 
-      {/* Customize Portfolio Drawer */}
-      <CustomizeDrawer
-        isOpen={isCustomizeOpen}
-        onClose={() => setIsCustomizeOpen(false)}
-        profile={profile}
-        onSaveProfile={handleSaveProfile}
-        onResetToDefaults={handleResetProfile}
-      />
+      {/* Cursor lens: shows the real opposite theme under the mouse. Keep it last, at the top level. */}
+      {!IS_LENS_FRAME && <CursorLens />}
     </div>
   );
 }
